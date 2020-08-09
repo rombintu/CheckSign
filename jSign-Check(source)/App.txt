@@ -1,0 +1,110 @@
+
+package group.rsa.check;
+
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.UIManager.LookAndFeelInfo;
+
+public class App extends JFrame {
+    private JButton jButton1;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JTextField jTextField1;
+    private JTextField jTextField2;
+    private JTextField jTextField3;
+    private JTextField jTextField4;
+
+    public App() {
+        this.initComponents();
+    }
+
+    private void initComponents() {
+        this.jTextField3 = new JTextField();
+        this.jButton1 = new JButton();
+        this.jLabel1 = new JLabel();
+        this.jLabel2 = new JLabel();
+        this.jTextField1 = new JTextField();
+        this.jTextField2 = new JTextField();
+        this.jLabel3 = new JLabel();
+        this.jTextField4 = new JTextField();
+        this.jTextField3.setText("jTextField3");
+        this.setDefaultCloseOperation(3);
+        this.setTitle("RSA-check");
+        this.jButton1.setText("Check");
+        this.jButton1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                App.this.jButton1ActionPerformed(evt);
+            }
+        });
+        this.jLabel1.setFont(new Font("Dialog", 1, 18));
+        this.jLabel1.setText("Signature >> ");
+        this.jLabel2.setFont(new Font("Dialog", 1, 18));
+        this.jLabel2.setText("Open key  >>");
+        this.jTextField1.setFont(new Font("Dialog", 0, 14));
+        this.jTextField2.setFont(new Font("Dialog", 0, 14));
+        this.jLabel3.setForeground(new Color(153, 153, 153));
+        this.jLabel3.setText("by Nickolsky");
+        GroupLayout layout = new GroupLayout(this.getContentPane());
+        this.getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING, layout.createSequentialGroup().addGap(0, 0, 32767).addComponent(this.jLabel3)).addGroup(layout.createSequentialGroup().addContainerGap().addGroup(layout.createParallelGroup(Alignment.TRAILING, false).addComponent(this.jLabel2, Alignment.LEADING, -1, -1, 32767).addComponent(this.jLabel1, Alignment.LEADING, -1, -1, 32767)).addPreferredGap(ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(this.jButton1, -2, 106, -2).addGap(18, 18, 18).addComponent(this.jTextField4, -1, 98, 32767)).addComponent(this.jTextField1).addComponent(this.jTextField2, Alignment.TRAILING)))).addContainerGap()));
+        layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING, layout.createSequentialGroup().addGap(16, 16, 16).addComponent(this.jLabel3).addPreferredGap(ComponentPlacement.UNRELATED).addGroup(layout.createParallelGroup(Alignment.LEADING, false).addComponent(this.jLabel1, -1, 28, 32767).addComponent(this.jTextField1)).addPreferredGap(ComponentPlacement.UNRELATED).addGroup(layout.createParallelGroup(Alignment.LEADING, false).addComponent(this.jLabel2, -1, 28, 32767).addComponent(this.jTextField2)).addPreferredGap(ComponentPlacement.RELATED, 18, 32767).addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(this.jButton1).addComponent(this.jTextField4, -2, -1, -2)).addContainerGap()));
+        this.pack();
+    }
+
+    private void jButton1ActionPerformed(ActionEvent evt) {
+        int signature = Integer.parseInt(this.jTextField1.getText());
+        int Open_key = Integer.parseInt(this.jTextField2.getText());
+        int clone_signature = (int)Math.pow((double)signature, (double)Open_key) % Open_key;
+        if (clone_signature == signature) {
+            this.jTextField4.setText("TRUE");
+        } else {
+            this.jTextField4.setText("FALSE");
+        }
+
+    }
+
+    public static void main(String[] args) {
+        try {
+            LookAndFeelInfo[] var1 = UIManager.getInstalledLookAndFeels();
+            int var2 = var1.length;
+
+            for(int var3 = 0; var3 < var2; ++var3) {
+                LookAndFeelInfo info = var1[var3];
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException var5) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, (String)null, var5);
+        } catch (InstantiationException var6) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, (String)null, var6);
+        } catch (IllegalAccessException var7) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, (String)null, var7);
+        } catch (UnsupportedLookAndFeelException var8) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, (String)null, var8);
+        }
+
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                (new App()).setVisible(true);
+            }
+        });
+    }
+}
+

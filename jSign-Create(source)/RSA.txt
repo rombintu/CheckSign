@@ -1,0 +1,42 @@
+package group.jrsa.signature;
+
+public class RSA {
+    public RSA() {
+    }
+
+    public static boolean checkSimple(int i) {
+        if (i <= 1) {
+            return false;
+        } else if (i <= 3) {
+            return true;
+        } else if (i % 2 != 0 && i % 3 != 0) {
+            for(int n = 5; n * n <= i; n += 6) {
+                if (i % n == 0 || i % (n + 2) == 0) {
+                    return false;
+                }
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static double randInt(int a, int b) {
+        return (double)Math.round(Math.random() * (double)(b - a) + (double)a);
+    }
+
+    public static int getSimple(int from, int to) {
+        int i = (int)randInt(from, to);
+
+        do {
+            if (checkSimple(i)) {
+                return i;
+            }
+
+            ++i;
+        } while(!checkSimple(i));
+
+        return i;
+    }
+}

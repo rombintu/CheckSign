@@ -1,0 +1,124 @@
+
+package group.jrsa.signature;
+
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.UIManager.LookAndFeelInfo;
+
+public class App extends JFrame {
+    private JButton jButton1;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JLabel jLabel4;
+    private JScrollPane jScrollPane1;
+    private JTextArea jTextArea1;
+    private JTextField jTextField1;
+    private JTextField jTextField2;
+    private JTextField jTextField3;
+    private JTextField jTextField4;
+
+    public App() {
+        this.initComponents();
+    }
+
+    private void initComponents() {
+        this.jTextField1 = new JTextField();
+        this.jScrollPane1 = new JScrollPane();
+        this.jTextArea1 = new JTextArea();
+        this.jButton1 = new JButton();
+        this.jLabel1 = new JLabel();
+        this.jTextField2 = new JTextField();
+        this.jLabel2 = new JLabel();
+        this.jTextField3 = new JTextField();
+        this.jLabel3 = new JLabel();
+        this.jTextField4 = new JTextField();
+        this.jLabel4 = new JLabel();
+        this.jTextField1.setText("jTextField1");
+        this.setDefaultCloseOperation(3);
+        this.setTitle("RSA-signature");
+        this.setBackground(new Color(204, 204, 204));
+        this.jTextArea1.setColumns(20);
+        this.jTextArea1.setRows(5);
+        this.jScrollPane1.setViewportView(this.jTextArea1);
+        this.jButton1.setText("GO");
+        this.jButton1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                App.this.jButton1ActionPerformed(evt);
+            }
+        });
+        this.jLabel1.setFont(new Font("Dialog", 1, 14));
+        this.jLabel1.setText("Hash         >> ");
+        this.jLabel2.setFont(new Font("Dialog", 1, 14));
+        this.jLabel2.setText("Signature  >> ");
+        this.jLabel3.setFont(new Font("Dialog", 1, 14));
+        this.jLabel3.setText("Open key  >>");
+        this.jLabel4.setForeground(new Color(153, 153, 153));
+        this.jLabel4.setText("by Nickolsky");
+        GroupLayout layout = new GroupLayout(this.getContentPane());
+        this.getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(this.jScrollPane1, -2, 288, -2).addPreferredGap(ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(this.jButton1, -1, -1, 32767).addComponent(this.jLabel1, -1, -1, 32767).addComponent(this.jTextField2).addComponent(this.jLabel2, -1, 171, 32767).addComponent(this.jTextField3).addComponent(this.jLabel3, -1, -1, 32767).addComponent(this.jTextField4).addGroup(Alignment.TRAILING, layout.createSequentialGroup().addGap(0, 0, 32767).addComponent(this.jLabel4))).addContainerGap()));
+        layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING, layout.createSequentialGroup().addContainerGap().addGroup(layout.createParallelGroup(Alignment.TRAILING).addGroup(layout.createSequentialGroup().addComponent(this.jLabel1, -2, 25, -2).addPreferredGap(ComponentPlacement.RELATED).addComponent(this.jTextField2, -2, 28, -2).addPreferredGap(ComponentPlacement.RELATED).addComponent(this.jLabel2, -2, 25, -2).addPreferredGap(ComponentPlacement.RELATED).addComponent(this.jTextField3, -2, 28, -2).addPreferredGap(ComponentPlacement.RELATED).addComponent(this.jLabel3, -2, 25, -2).addPreferredGap(ComponentPlacement.RELATED).addComponent(this.jTextField4, -2, 28, -2).addGap(64, 64, 64).addComponent(this.jLabel4).addPreferredGap(ComponentPlacement.RELATED, 121, 32767).addComponent(this.jButton1)).addComponent(this.jScrollPane1)).addContainerGap()));
+        this.pack();
+    }
+
+    private void jButton1ActionPerformed(ActionEvent evt) {
+        String text = this.jTextArea1.getText();
+        int Open_key = RSA.getSimple(1000, 10000);
+        int Close_key = RSA.getSimple(1000, 10000);
+        String Open_keyDisplay = Integer.toString(Open_key);
+        int hash_sum = text.hashCode();
+        String hash_sumDisplay = Integer.toHexString(hash_sum).toUpperCase();
+        int signature_int = (int)Math.pow((double)hash_sum, (double)Close_key) % Open_key;
+        String signature = Integer.toString(signature_int);
+        this.jTextField2.setText(hash_sumDisplay);
+        this.jTextField3.setText(signature);
+        this.jTextField4.setText(Open_keyDisplay);
+    }
+
+    public static void main(String[] args) {
+        try {
+            LookAndFeelInfo[] var1 = UIManager.getInstalledLookAndFeels();
+            int var2 = var1.length;
+
+            for(int var3 = 0; var3 < var2; ++var3) {
+                LookAndFeelInfo info = var1[var3];
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException var5) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, (String)null, var5);
+        } catch (InstantiationException var6) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, (String)null, var6);
+        } catch (IllegalAccessException var7) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, (String)null, var7);
+        } catch (UnsupportedLookAndFeelException var8) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, (String)null, var8);
+        }
+
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                (new App()).setVisible(true);
+            }
+        });
+    }
+}
+
